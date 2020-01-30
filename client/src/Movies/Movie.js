@@ -48,7 +48,7 @@ export default class Movie extends React.Component {
         <div className="save-button" onClick={this.saveMovie}>
           Save
         </div>
-        <Route path="/movies/:id/update-form" component={UpdateMovie} />
+        <Route path="/movies/:id/update-form"><UpdateMovie movie={this.state.movie} /></Route>
         <button className="edit-button" onClick={this.handleUpdate}>Update</button>
       </div>
     );
