@@ -17,34 +17,68 @@ const UpdateMovie = props => {
     // }, [props.items, id]);
     console.log(props);
 
+    const handleChanges = e => {
+        setMovie({
+            ...movie,
+            [e.target.name]: e.target.value
+        })}
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        let stars
+        if(movie.stars instanceof Array){
+            stars = movie.stars
+        }else{
+            stars = movie.stars.split(",")
+        }
+        const payload = {
+            ...movie, stars: stars
+        }
+        axios.put(`http://localhost:5000/api/movies/${movie.id}`, payload)
+            .then(res => props.history.push(`/`))
+            .catch(err => console.log(err))
+
+            
+
+    }
+    
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <label>Title:
                 <input
                     value={movie.title}
+                    onChange={handleChanges}
                     type="text"
+                    name="title"
                 />
             </label>
             <label>Director:
                 <input
                     value={movie.director}
+                    onChange={handleChanges}
+                    type="text"
+                    name="director"
                 />
             </label>
             <label>Meta: 
                 <input
                     value={movie.metascore}
+                    onChange={handleChanges}
+                    type="text"
+                    name="metascore"
                 />
             </label>
             <label>Actors: 
-                {props.movie.stars.map(star => {
-                    console.log(star);
-                    return <input
-                            value={star}
-                          />
-                })}
+                <input
+                type="text"
+                value={movie.stars}
+                onChange={handleChanges}
+                name="stars"
+                ></input>
             </label>
 
-            <button>Update Movie</button>
+            <button type="submit">Update Movie</button>
         </form>
     )
 }
